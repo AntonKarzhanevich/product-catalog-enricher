@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+
+  <meta charset="UTF-8" />
+
+  <title>napolnenie — блок-схема</title>
+
+  <script type="module">
+
+    import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+
+    mermaid.initialize({ startOnLoad: true, theme: "base" });
+
+  </script>
+
+  <style>
+
+    body { margin: 0; font-family: "Segoe UI", sans-serif; background: #1a1d23; color: #eee; }
+
+    header { padding: 1rem 1.5rem; background: #22262e; border-bottom: 1px solid #333; }
+
+    main { padding: 1.5rem; }
+
+    .legend { display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.85rem; margin-top: 0.5rem; }
+
+    .swatch { display: inline-block; width: 12px; height: 12px; border-radius: 2px; margin-right: 4px; }
+
+    .done { background: #2d6a4f; }
+
+    .inprogress { background: #e9c46a; }
+
+    .blocked { background: #e76f51; }
+
+    .planned { background: #495057; }
+
+    h2 { font-size: 1rem; color: #adb5bd; margin: 2rem 0 0.5rem; }
+
+  </style>
+
+</head>
+
+<body>
+
+  <header>
+
+    <h1>Поиск картинок — napolnenie</h1>
+
+    <p>Синхронизировать с <code>docs/DIAGRAM.md</code></p>
+
+    <div class="legend">
+
+      <span><i class="swatch done"></i> done</span>
+
+      <span><i class="swatch inprogress"></i> in_progress</span>
+
+      <span><i class="swatch blocked"></i> blocked</span>
+
+      <span><i class="swatch planned"></i> planned</span>
+
+    </div>
+
+  </header>
+
+  <main>
+
+    <h2>Поток данных</h2>
+
+    <pre class="mermaid">
+
+flowchart TB
+
+  subgraph input [Вход done]
+
+    XLSX["1C xlsx"]
+
+    Parse["parser + parse"]
+
+  end
+
+  subgraph norm [Нормализация done]
+
+    Echk{E zapolnena?}
+
+    UseE["query_sent = E"]
+
+    Norm["normalize"]
+
+    UseG["series_clean"]
+
+  end
+
+  subgraph search [Poisk]
+
+    Mouser["Mouser blocked"]
+
+    DK["Digi-Key planned"]
+
+    Web["DDG web in_progress"]
+
+  end
+
+  subgraph out [Vyhod in_progress]
+
+    Save["web_report + images/web"]
+
+    NF["not_found"]
+
+    Review["needs_review"]
+
+  end
+
+  XLSX --> Parse --> Echk
+
+  Echk -->|da| UseE --> Mouser
+
+  Echk -->|net| Norm --> UseG --> Mouser
+
+  Mouser -->|hit| Save
+
+  Mouser -->|miss| DK
+
+  DK -->|hit| Save
+
+  DK -->|miss| Web
+
+  Web -->|MPN| Review --> Save
+
+  Web -->|empty| NF
+
+  classDef done fill:#2d6a4f,stroke:#40916c,color:#fff
+
+  classDef inprogress fill:#e9c46a,stroke:#ca8a04,color:#1a1d23
+
+  classDef blocked fill:#e76f51,stroke:#c92a2a,color:#fff
+
+  classDef planned fill:#495057,stroke:#868e96,color:#dee2e6,stroke-dasharray:5 5
+
+  class XLSX,Parse,UseE,Norm,UseG done
+
+  class Web,Save,Review,NF inprogress
+
+  class Mouser blocked
+
+  class DK planned
+
+    </pre>
+
+    <h2>Этапы M0–M5</h2>
+
+    <pre class="mermaid">
+
+flowchart LR
+
+  M0["M0 docs"]:::done
+
+  M1["M1 parser"]:::done
+
+  M2["M2 Mouser"]:::blocked
+
+  M3["M3 DigiKey"]:::planned
+
+  M4["M4 pipeline"]:::planned
+
+  M5["M5 web"]:::inprogress
+
+  M0 --> M1 --> M2 --> M3 --> M4 --> M5
+
+  classDef done fill:#2d6a4f,stroke:#40916c,color:#fff
+
+  classDef inprogress fill:#e9c46a,stroke:#ca8a04,color:#1a1d23
+
+  classDef blocked fill:#e76f51,stroke:#c92a2a,color:#fff
+
+  classDef planned fill:#495057,stroke:#868e96,color:#dee2e6,stroke-dasharray:5 5
+
+    </pre>
+
+  </main>
+
+</body>
+
+</html>
+
+

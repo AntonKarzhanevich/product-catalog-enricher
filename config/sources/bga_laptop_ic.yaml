@@ -1,0 +1,63 @@
+# Профиль группы «BGA чип и микросхема для ноутбуков» (M5 v2)
+# Используется src/napolnenie/web2_runner.py
+name: bga_laptop_ic
+group_label: "BGA чип и микросхема для ноутбуков"
+
+# Порядок попыток (меньше индекс = раньше)
+sources:
+  - theretroweb
+  - dfi
+  - chipsetpro
+
+# Trusted-домены: только URL с этих доменов попадают в отчёт
+trusted_domains:
+  - theretroweb.com
+  - dfi.ua
+  - chipsetpro.com
+
+# В выдаче DDGS text — отбрасываем сразу
+skip_domains:
+  - ebay.com
+  - aliexpress.com
+  - alibaba.com
+  - prom.ua
+  - avito
+  - olx.
+  - youtube.com
+  - youtu.be
+  - reddit.com
+  - wikipedia.org
+  - datasheet
+  - alldatasheet
+  - digchip.com
+  - example.com
+  - pdf
+
+# URL картинок, которые НЕ берём (логотипы, заглушки)
+bad_photo_patterns:
+  - logo
+  - favicon
+  - /icon
+  - placeholder
+  - no_image
+  - no-image
+  - /brand/
+  - /assets/logo
+
+# URL картинок-намёки на «настоящее фото товара»
+product_photo_hints:
+  - large_default
+  - /chip/image/
+  - cache/catalog/product
+  - cache/catalog/tovar
+  - wp-content/uploads
+
+http:
+  timeout_sec: 10
+  user_agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) napolnenie/0.2"
+
+ddgs_text:
+  results_per_query: 5
+  max_urls_per_source: 8
+  min_interval_sec: 2.0
+  probe_limit: 30

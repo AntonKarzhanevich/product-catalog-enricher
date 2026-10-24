@@ -9,3 +9,4 @@ venv/
 !.gitkeep
 .idea/
 .vscode/
+data/

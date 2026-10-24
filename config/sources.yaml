@@ -1,0 +1,17 @@
+mouser:
+  min_interval_sec: 2.0
+  daily_limit_hint: 1000
+
+web:
+  max_results: 8
+  min_interval_sec: 2.0
+  group_short_words: 4
+  probe_limit: 30
+
+# Только для mouser-probe (M2). web-probe берёт первые probe_limit строк из parsed.csv
+m2_probe_queries:
+  - ALC3248          # E_filled
+  - NB669AEVD        # normalize B_join_3tok
+  - 216-0772034      # E_filled, AMD в G-head
+  - SY8033BDBC       # normalize C_join_2tok
+  - LTC2978UP        # normalize LTC_like
